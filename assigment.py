@@ -1,26 +1,23 @@
 import pygame, sys, random
 
+#
+# Check the explanation on you tube:
+# https://www.youtube.com/watch?v=Qf3-aDXG8q4&ab_channel=ClearCode
+#
+
 class Block(pygame.sprite.Sprite):
 	def __init__(self,path,x_pos,y_pos):
 		super().__init__()
 		self.image = pygame.image.load(path)
 		self.rect = self.image.get_rect(center = (x_pos,y_pos))
 
-class Player(Block):
-	def __init__(self,path,x_pos,y_pos,speed):
-		super().__init__(path,x_pos,y_pos)
-		self.speed = speed
-		self.movement = 0
+# Im plement the player class here!
+# vvvvvvvvvvvvvvvv
+#class Player(Block):
+#	def __init__(self,path,x_pos,y_pos,speed):
+#		super().__init__(path,x_pos,y_pos)
+# ^^^^^^^^^^^^^^^^
 
-	def screen_constrain(self):
-		if self.rect.top <= 0:
-			self.rect.top = 0
-		if self.rect.bottom >= screen_height:
-			self.rect.bottom = screen_height
-
-	def update(self,ball_group):
-		self.rect.y += self.movement
-		self.screen_constrain()
 
 class Ball(Block):
 	def __init__(self,path,x_pos,y_pos,speed_x,speed_y,paddles):
@@ -156,13 +153,13 @@ score_sound = pygame.mixer.Sound("score.ogg")
 middle_strip = pygame.Rect(screen_width/2 - 2,0,4,screen_height)
 
 # Game objects
-player = Player('paddle.png',screen_width - 20,screen_height/2,5)
-opponent = Opponent('paddle.png',20,screen_width/2,5)
+# instantiate player
+opponent = Opponent('Paddle.png',20,screen_width/2,5)
 paddle_group = pygame.sprite.Group()
-paddle_group.add(player)
+# add the player to the paddle group
 paddle_group.add(opponent)
 
-ball = Ball('ball.png',screen_width/2,screen_height/2,4,4,paddle_group)
+ball = Ball('Ball.png',screen_width/2,screen_height/2,4,4,paddle_group)
 ball_sprite = pygame.sprite.GroupSingle()
 ball_sprite.add(ball)
 
@@ -173,16 +170,20 @@ while True:
 		if event.type == pygame.QUIT:
 			pygame.quit()
 			sys.exit()
-		if event.type == pygame.KEYDOWN:
+		if event.type == pygame.KEYDOWN:# when a key is pressed
 			if event.key == pygame.K_UP:
-				player.movement -= player.speed
+				# the player moves with negative speed
+				print("up pressed key")
 			if event.key == pygame.K_DOWN:
-				player.movement += player.speed
-		if event.type == pygame.KEYUP:
+				# the player moves with positive speed 
+				print("down pressed key")
+		if event.type == pygame.KEYUP:# when a key is released
 			if event.key == pygame.K_UP:
-				player.movement += player.speed
+				# the player moves with positive speed 
+				print("up released key")
 			if event.key == pygame.K_DOWN:
-				player.movement -= player.speed
+				# the player moves with negative speed
+				print("down released")
 	
 	# Background Stuff
 	screen.fill(bg_color)
